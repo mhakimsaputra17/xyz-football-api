@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/dto"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/service"
-	"github.com/mhakimsaputra17/xyz-football-api/pkg/errs"
 	"github.com/mhakimsaputra17/xyz-football-api/pkg/response"
 )
 
@@ -40,7 +39,7 @@ func NewPlayerHandler(playerService service.PlayerService) *PlayerHandler {
 //	@Failure		500			{object}	response.Envelope
 //	@Router			/teams/{id}/players [get]
 func (h *PlayerHandler) GetAllByTeamID(c *gin.Context) {
-	teamID, ok := parseUUID(c, c.Param("id"))
+	teamID, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
@@ -72,7 +71,7 @@ func (h *PlayerHandler) GetAllByTeamID(c *gin.Context) {
 //	@Failure		500	{object}	response.Envelope
 //	@Router			/players/{id} [get]
 func (h *PlayerHandler) GetByID(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
@@ -105,14 +104,14 @@ func (h *PlayerHandler) GetByID(c *gin.Context) {
 //	@Failure		500		{object}	response.Envelope
 //	@Router			/teams/{id}/players [post]
 func (h *PlayerHandler) Create(c *gin.Context) {
-	teamID, ok := parseUUID(c, c.Param("id"))
+	teamID, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
 
 	var req dto.CreatePlayerRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -144,14 +143,14 @@ func (h *PlayerHandler) Create(c *gin.Context) {
 //	@Failure		500		{object}	response.Envelope
 //	@Router			/players/{id} [put]
 func (h *PlayerHandler) Update(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
 
 	var req dto.UpdatePlayerRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -180,7 +179,7 @@ func (h *PlayerHandler) Update(c *gin.Context) {
 //	@Failure		500	{object}	response.Envelope
 //	@Router			/players/{id} [delete]
 func (h *PlayerHandler) Delete(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}

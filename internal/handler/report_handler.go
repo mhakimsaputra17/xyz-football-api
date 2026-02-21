@@ -63,7 +63,7 @@ func (h *ReportHandler) GetMatchReports(c *gin.Context) {
 //	@Failure		500	{object}	response.Envelope
 //	@Router			/reports/matches/{id} [get]
 func (h *ReportHandler) GetMatchReportByID(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}

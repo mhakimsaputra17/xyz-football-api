@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/dto"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/service"
-	"github.com/mhakimsaputra17/xyz-football-api/pkg/errs"
 	"github.com/mhakimsaputra17/xyz-football-api/pkg/response"
 )
 
@@ -37,7 +36,7 @@ func NewAuthHandler(authService service.AuthService) *AuthHandler {
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req dto.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -76,7 +75,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 func (h *AuthHandler) Refresh(c *gin.Context) {
 	var req dto.RefreshRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -112,7 +111,7 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 func (h *AuthHandler) Logout(c *gin.Context) {
 	var req dto.RefreshRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 

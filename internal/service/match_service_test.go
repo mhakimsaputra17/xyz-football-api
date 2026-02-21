@@ -361,7 +361,7 @@ func TestMatchService_SubmitResult(t *testing.T) {
 				}, nil)
 			},
 			wantErr:     true,
-			errContains: "Player does not belong to the specified team",
+			errContains: "Goal #1: player does not belong to the specified team",
 		},
 		{
 			name: "goal team not in match",
@@ -377,7 +377,7 @@ func TestMatchService_SubmitResult(t *testing.T) {
 				mr.EXPECT().FindByID(matchID).Return(&m, nil)
 			},
 			wantErr:     true,
-			errContains: "Goal team_id must be either home or away team",
+			errContains: "Goal #1: team_id must be either home or away team",
 		},
 		{
 			name: "match not found",

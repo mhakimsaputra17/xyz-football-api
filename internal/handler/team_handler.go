@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/dto"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/service"
-	"github.com/mhakimsaputra17/xyz-football-api/pkg/errs"
 	"github.com/mhakimsaputra17/xyz-football-api/pkg/response"
 )
 
@@ -64,7 +63,7 @@ func (h *TeamHandler) GetAll(c *gin.Context) {
 //	@Failure		500	{object}	response.Envelope
 //	@Router			/teams/{id} [get]
 func (h *TeamHandler) GetByID(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
@@ -96,7 +95,7 @@ func (h *TeamHandler) GetByID(c *gin.Context) {
 func (h *TeamHandler) Create(c *gin.Context) {
 	var req dto.CreateTeamRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -127,14 +126,14 @@ func (h *TeamHandler) Create(c *gin.Context) {
 //	@Failure		500		{object}	response.Envelope
 //	@Router			/teams/{id} [put]
 func (h *TeamHandler) Update(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
 
 	var req dto.UpdateTeamRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -163,7 +162,7 @@ func (h *TeamHandler) Update(c *gin.Context) {
 //	@Failure		500	{object}	response.Envelope
 //	@Router			/teams/{id} [delete]
 func (h *TeamHandler) Delete(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}

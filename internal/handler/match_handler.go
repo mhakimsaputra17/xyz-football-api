@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/dto"
 	"github.com/mhakimsaputra17/xyz-football-api/internal/service"
-	"github.com/mhakimsaputra17/xyz-football-api/pkg/errs"
 	"github.com/mhakimsaputra17/xyz-football-api/pkg/response"
 )
 
@@ -64,7 +63,7 @@ func (h *MatchHandler) GetAll(c *gin.Context) {
 //	@Failure		500	{object}	response.Envelope
 //	@Router			/matches/{id} [get]
 func (h *MatchHandler) GetByID(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
@@ -97,7 +96,7 @@ func (h *MatchHandler) GetByID(c *gin.Context) {
 func (h *MatchHandler) Create(c *gin.Context) {
 	var req dto.CreateMatchRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -128,14 +127,14 @@ func (h *MatchHandler) Create(c *gin.Context) {
 //	@Failure		500		{object}	response.Envelope
 //	@Router			/matches/{id} [put]
 func (h *MatchHandler) Update(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
 
 	var req dto.UpdateMatchRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -164,7 +163,7 @@ func (h *MatchHandler) Update(c *gin.Context) {
 //	@Failure		500	{object}	response.Envelope
 //	@Router			/matches/{id} [delete]
 func (h *MatchHandler) Delete(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
@@ -195,14 +194,14 @@ func (h *MatchHandler) Delete(c *gin.Context) {
 //	@Failure		500		{object}	response.Envelope
 //	@Router			/matches/{id}/result [post]
 func (h *MatchHandler) SubmitResult(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
 
 	var req dto.MatchResultRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 
@@ -233,14 +232,14 @@ func (h *MatchHandler) SubmitResult(c *gin.Context) {
 //	@Failure		500		{object}	response.Envelope
 //	@Router			/matches/{id}/result [put]
 func (h *MatchHandler) UpdateResult(c *gin.Context) {
-	id, ok := parseUUID(c, c.Param("id"))
+	id, ok := parseUUID(c, c.Param("id"), "id")
 	if !ok {
 		return
 	}
 
 	var req dto.MatchResultRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, errs.ErrBadRequest("Invalid request body: "+err.Error()))
+		handleBindingError(c, err)
 		return
 	}
 

@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 
 	"github.com/google/uuid"
@@ -185,12 +186,14 @@ func (s *matchService) Update(id uuid.UUID, req dto.UpdateMatchRequest) (*dto.Ma
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrNotFound("Home team not found")
 		}
+		slog.Error("failed to fetch home team for update", "error", err, "match_id", id)
 		return nil, errs.ErrInternal("Internal server error")
 	}
 	if _, err := s.teamRepo.FindByID(awayTeamID); err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errs.ErrNotFound("Away team not found")
 		}
+		slog.Error("failed to fetch away team for update", "error", err, "match_id", id)
 		return nil, errs.ErrInternal("Internal server error")
 	}
 
@@ -277,29 +280,29 @@ func (s *matchService) processResult(match *model.Match, req dto.MatchResultRequ
 	for i, goalInput := range req.Goals {
 		playerID, err := uuid.Parse(goalInput.PlayerID)
 		if err != nil {
-			return nil, errs.ErrBadRequest("Invalid player_id format in goal " + string(rune('1'+i)))
+			return nil, errs.ErrBadRequest(fmt.Sprintf("Goal #%d: invalid player_id format", i+1))
 		}
 		teamID, err := uuid.Parse(goalInput.TeamID)
 		if err != nil {
-			return nil, errs.ErrBadRequest("Invalid team_id format in goal " + string(rune('1'+i)))
+			return nil, errs.ErrBadRequest(fmt.Sprintf("Goal #%d: invalid team_id format", i+1))
 		}
 
 		// Validate team_id is either home or away team
 		if teamID != match.HomeTeamID && teamID != match.AwayTeamID {
-			return nil, errs.ErrBadRequest("Goal team_id must be either home or away team")
+			return nil, errs.ErrBadRequest(fmt.Sprintf("Goal #%d: team_id must be either home or away team", i+1))
 		}
 
 		// Validate player belongs to the specified team
 		player, err := s.playerRepo.FindByID(playerID)
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return nil, errs.ErrNotFound("Player not found for goal entry")
+				return nil, errs.ErrNotFound(fmt.Sprintf("Goal #%d: player not found", i+1))
 			}
 			slog.Error("failed to fetch player for goal validation", "error", err)
 			return nil, errs.ErrInternal("Internal server error")
 		}
 		if player.TeamID != teamID {
-			return nil, errs.ErrBadRequest("Player does not belong to the specified team")
+			return nil, errs.ErrBadRequest(fmt.Sprintf("Goal #%d: player does not belong to the specified team", i+1))
 		}
 
 		// Count scores
