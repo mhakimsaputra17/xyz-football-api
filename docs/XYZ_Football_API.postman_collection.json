@@ -2,8 +2,18 @@
 	"info": {
 		"_postman_id": "xyz-football-api-collection",
 		"name": "XYZ Football API",
-		"description": "REST API for managing football teams, players, match schedules, results, and reports for Perusahaan XYZ.\n\nBase URL: http://localhost:8080/api/v1\n\nAuth: JWT Bearer Token (access_token)\n\nWorkflow:\n1. Login → get access_token & refresh_token\n2. Use access_token for all protected endpoints\n3. Refresh when access_token expires (15 min)\n4. Logout to invalidate refresh_token",
+		"description": "REST API for managing football teams, players, match schedules, results, and reports for Perusahaan XYZ.\n\nBase URL: http://localhost:8080/api/v1\n\nAuth: JWT Bearer Token (access_token)\n\nWorkflow:\n1. Login → get access_token & refresh_token\n2. Use access_token for all protected endpoints (inherited from collection auth)\n3. Refresh when access_token expires (15 min)\n4. Logout to invalidate refresh_token\n\nCollection Runner: Run all requests top-to-bottom. The Cleanup folder at the end handles deletions and logout.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
 	},
 	"variable": [
 		{
@@ -50,7 +60,7 @@
 	"item": [
 		{
 			"name": "Auth",
-			"description": "Authentication endpoints: login, refresh tokens, logout.",
+			"description": "Authentication endpoints: login and refresh tokens. Logout is in the Cleanup folder.",
 			"item": [
 				{
 					"name": "Login",
@@ -77,6 +87,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -120,6 +133,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -139,58 +155,12 @@
 						"description": "Exchange a valid refresh token for a new access + refresh token pair (token rotation).\n\nNo auth required.\n\nThe old refresh token is invalidated and a new pair is issued. Test script auto-updates collection variables."
 					},
 					"response": []
-				},
-				{
-					"name": "Logout",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    var json = pm.response.json();",
-									"    pm.test('Logout successful', function () {",
-									"        pm.expect(json.status).to.eql('success');",
-									"        pm.expect(json.message).to.eql('Logout successful');",
-									"    });",
-									"    pm.collectionVariables.set('access_token', '');",
-									"    pm.collectionVariables.set('refresh_token', '');",
-									"}"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/api/v1/auth/logout",
-							"host": ["{{base_url}}"],
-							"path": ["api", "v1", "auth", "logout"]
-						},
-						"description": "Invalidate the refresh token by hard-deleting it from the database.\n\nRequires Bearer token in Authorization header.\n\nTest script clears saved tokens from collection variables."
-					},
-					"response": []
 				}
 			]
 		},
 		{
 			"name": "Teams",
-			"description": "CRUD operations for football teams.",
+			"description": "CRUD operations for football teams. Delete is in the Cleanup folder.",
 			"item": [
 				{
 					"name": "Create Team",
@@ -219,10 +189,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -264,10 +230,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -308,12 +270,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/teams?page=1&per_page=10&sort_by=created_at&sort_order=desc",
 							"host": ["{{base_url}}"],
@@ -332,7 +289,7 @@
 								{
 									"key": "sort_by",
 									"value": "created_at",
-									"description": "Sort field (default: created_at)"
+									"description": "Sort field: created_at, name, founded_year, city (default: created_at)"
 								},
 								{
 									"key": "sort_order",
@@ -341,7 +298,7 @@
 								}
 							]
 						},
-						"description": "Returns a paginated list of all teams with sorting support.\n\nQuery params: page, per_page, sort_by, sort_order"
+						"description": "Returns a paginated list of all teams with sorting support.\n\nAllowed sort_by values: created_at, name, founded_year, city\n\nQuery params: page, per_page, sort_by, sort_order"
 					},
 					"response": []
 				},
@@ -366,12 +323,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/teams/{{team_id}}",
 							"host": ["{{base_url}}"],
@@ -406,10 +358,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -424,48 +372,12 @@
 						"description": "Updates an existing team by its UUID.\n\nRequired fields: name\nOptional fields: logo_url, founded_year, address, city"
 					},
 					"response": []
-				},
-				{
-					"name": "Delete Team",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    var json = pm.response.json();",
-									"    pm.test('Team deleted', function () {",
-									"        pm.expect(json.status).to.eql('success');",
-									"        pm.expect(json.message).to.eql('Team deleted successfully');",
-									"    });",
-									"}"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/v1/teams/{{team_id}}",
-							"host": ["{{base_url}}"],
-							"path": ["api", "v1", "teams", "{{team_id}}"]
-						},
-						"description": "Soft-deletes a team by its UUID.\n\nThe team is not permanently removed; it is marked with a deleted_at timestamp."
-					},
-					"response": []
 				}
 			]
 		},
 		{
 			"name": "Players",
-			"description": "CRUD operations for players. Create and list are nested under teams; get, update, delete use player ID directly.",
+			"description": "CRUD operations for players. Create and list are nested under teams; get, update, delete use player ID directly. Delete is in the Cleanup folder.",
 			"item": [
 				{
 					"name": "Create Player (Team 1)",
@@ -496,10 +408,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -541,10 +449,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -583,12 +487,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/teams/{{team_id}}/players?page=1&per_page=10&sort_by=jersey_number&sort_order=asc",
 							"host": ["{{base_url}}"],
@@ -607,7 +506,7 @@
 								{
 									"key": "sort_by",
 									"value": "jersey_number",
-									"description": "Sort field (default: created_at)"
+									"description": "Sort field: created_at, name, jersey_number, position (default: created_at)"
 								},
 								{
 									"key": "sort_order",
@@ -616,7 +515,7 @@
 								}
 							]
 						},
-						"description": "Returns a paginated list of players belonging to the specified team.\n\nQuery params: page, per_page, sort_by, sort_order"
+						"description": "Returns a paginated list of players belonging to the specified team.\n\nAllowed sort_by values: created_at, name, jersey_number, position\n\nQuery params: page, per_page, sort_by, sort_order"
 					},
 					"response": []
 				},
@@ -641,12 +540,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/players/{{player_id}}",
 							"host": ["{{base_url}}"],
@@ -682,10 +576,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -700,48 +590,12 @@
 						"description": "Updates an existing player by its UUID.\n\nRequired fields: name, height (>0), weight (>0), position, jersey_number (>0)\n\nJersey number must remain unique within the team."
 					},
 					"response": []
-				},
-				{
-					"name": "Delete Player",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    var json = pm.response.json();",
-									"    pm.test('Player deleted', function () {",
-									"        pm.expect(json.status).to.eql('success');",
-									"        pm.expect(json.message).to.eql('Player deleted successfully');",
-									"    });",
-									"}"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/v1/players/{{player_id}}",
-							"host": ["{{base_url}}"],
-							"path": ["api", "v1", "players", "{{player_id}}"]
-						},
-						"description": "Soft-deletes a player by its UUID."
-					},
-					"response": []
 				}
 			]
 		},
 		{
 			"name": "Matches",
-			"description": "CRUD for match schedules + submit/update match results with goals.",
+			"description": "CRUD for match schedules + submit/update match results with goals. Delete is in the Cleanup folder.",
 			"item": [
 				{
 					"name": "Create Match",
@@ -772,10 +626,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -813,12 +663,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/matches?page=1&per_page=10&sort_by=match_date&sort_order=desc",
 							"host": ["{{base_url}}"],
@@ -837,7 +682,7 @@
 								{
 									"key": "sort_by",
 									"value": "match_date",
-									"description": "Sort field (default: created_at)"
+									"description": "Sort field: created_at, match_date, status (default: created_at)"
 								},
 								{
 									"key": "sort_order",
@@ -846,7 +691,7 @@
 								}
 							]
 						},
-						"description": "Returns a paginated list of all matches with home/away team details.\n\nQuery params: page, per_page, sort_by, sort_order"
+						"description": "Returns a paginated list of all matches with home/away team details.\n\nAllowed sort_by values: created_at, match_date, status\n\nQuery params: page, per_page, sort_by, sort_order"
 					},
 					"response": []
 				},
@@ -871,12 +716,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/matches/{{match_id}}",
 							"host": ["{{base_url}}"],
@@ -912,10 +752,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -958,10 +794,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -1004,10 +836,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
 							}
 						],
 						"body": {
@@ -1020,42 +848,6 @@
 							"path": ["api", "v1", "matches", "{{match_id}}", "result"]
 						},
 						"description": "Replaces existing goals for a completed match with new data and recomputes scores.\n\nAll previous goals are deleted and replaced with the new set.\n\nThis example: Updates to 1-1 draw (Home goal min 55, Away goal min 78)"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Match",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    var json = pm.response.json();",
-									"    pm.test('Match deleted', function () {",
-									"        pm.expect(json.status).to.eql('success');",
-									"        pm.expect(json.message).to.eql('Match deleted successfully');",
-									"    });",
-									"}"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/v1/matches/{{match_id}}",
-							"host": ["{{base_url}}"],
-							"path": ["api", "v1", "matches", "{{match_id}}"]
-						},
-						"description": "Soft-deletes a match by its UUID."
 					},
 					"response": []
 				}
@@ -1087,12 +879,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/reports/matches?page=1&per_page=10&sort_by=created_at&sort_order=desc",
 							"host": ["{{base_url}}"],
@@ -1111,7 +898,7 @@
 								{
 									"key": "sort_by",
 									"value": "created_at",
-									"description": "Sort field (default: created_at)"
+									"description": "Sort field: created_at, match_date, status (default: created_at)"
 								},
 								{
 									"key": "sort_order",
@@ -1120,7 +907,7 @@
 								}
 							]
 						},
-						"description": "Returns a paginated list of completed match reports with match result summary (Home Win / Away Win / Draw).\n\nQuery params: page, per_page, sort_by, sort_order"
+						"description": "Returns a paginated list of completed match reports with match result summary (Home Win / Away Win / Draw).\n\nAllowed sort_by values: created_at, match_date, status\n\nQuery params: page, per_page, sort_by, sort_order"
 					},
 					"response": []
 				},
@@ -1150,12 +937,7 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/v1/reports/matches/{{match_id}}",
 							"host": ["{{base_url}}"],
@@ -1189,6 +971,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1197,6 +982,147 @@
 							"path": ["health"]
 						},
 						"description": "Public health check endpoint. No authentication required.\n\nUsed by Docker HEALTHCHECK and load balancers.\n\nExpected response: {\"status\": \"ok\"}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cleanup",
+			"description": "Delete operations and logout. Run these last in Collection Runner to avoid breaking dependent requests.",
+			"item": [
+				{
+					"name": "Delete Match",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.test('Match deleted', function () {",
+									"        pm.expect(json.status).to.eql('success');",
+									"        pm.expect(json.message).to.eql('Match deleted successfully');",
+									"    });",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/matches/{{match_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "matches", "{{match_id}}"]
+						},
+						"description": "Soft-deletes a match by its UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Player",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.test('Player deleted', function () {",
+									"        pm.expect(json.status).to.eql('success');",
+									"        pm.expect(json.message).to.eql('Player deleted successfully');",
+									"    });",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/players/{{player_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "players", "{{player_id}}"]
+						},
+						"description": "Soft-deletes a player by its UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.test('Team deleted', function () {",
+									"        pm.expect(json.status).to.eql('success');",
+									"        pm.expect(json.message).to.eql('Team deleted successfully');",
+									"    });",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/teams/{{team_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "teams", "{{team_id}}"]
+						},
+						"description": "Soft-deletes a team by its UUID.\n\nThe team is not permanently removed; it is marked with a deleted_at timestamp."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.test('Logout successful', function () {",
+									"        pm.expect(json.status).to.eql('success');",
+									"        pm.expect(json.message).to.eql('Logout successful');",
+									"    });",
+									"    pm.collectionVariables.set('access_token', '');",
+									"    pm.collectionVariables.set('refresh_token', '');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/logout",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "auth", "logout"]
+						},
+						"description": "Invalidate the refresh token by hard-deleting it from the database.\n\nRequires Bearer token (inherited from collection auth).\n\nTest script clears saved tokens from collection variables."
 					},
 					"response": []
 				}
