@@ -1671,10 +1671,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000001"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "admin"
                 }
             }
         },
@@ -1688,18 +1690,22 @@ const docTemplate = `{
             ],
             "properties": {
                 "away_team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000020"
                 },
                 "home_team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000010"
                 },
                 "match_date": {
                     "description": "YYYY-MM-DD",
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-06-15"
                 },
                 "match_time": {
                     "description": "HH:MM",
-                    "type": "string"
+                    "type": "string",
+                    "example": "19:30"
                 }
             }
         },
@@ -1714,13 +1720,16 @@ const docTemplate = `{
             ],
             "properties": {
                 "height": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 185
                 },
                 "jersey_number": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 9
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Marko Simic"
                 },
                 "position": {
                     "type": "string",
@@ -1729,10 +1738,12 @@ const docTemplate = `{
                         "gelandang",
                         "bertahan",
                         "penjaga_gawang"
-                    ]
+                    ],
+                    "example": "penyerang"
                 },
                 "weight": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 80
                 }
             }
         },
@@ -1743,21 +1754,26 @@ const docTemplate = `{
             ],
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jakarta International Stadium"
                 },
                 "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jakarta"
                 },
                 "founded_year": {
                     "type": "integer",
                     "maximum": 2100,
-                    "minimum": 1800
+                    "minimum": 1800,
+                    "example": 1928
                 },
                 "logo_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://example.com/persija-logo.png"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Persija Jakarta"
                 }
             }
         },
@@ -1771,13 +1787,16 @@ const docTemplate = `{
             "properties": {
                 "minute": {
                     "type": "integer",
-                    "minimum": 1
+                    "minimum": 1,
+                    "example": 45
                 },
                 "player_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000100"
                 },
                 "team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000010"
                 }
             }
         },
@@ -1785,28 +1804,34 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-01-15T10:30:00Z"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000010000"
                 },
                 "match_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000001000"
                 },
                 "minute": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 45
                 },
                 "player": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.PlayerResponse"
                 },
                 "player_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000100"
                 },
                 "team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000010"
                 }
             }
         },
@@ -1818,10 +1843,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "password123"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "admin"
                 }
             }
         },
@@ -1829,13 +1856,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "access_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6..."
                 },
                 "admin": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.AdminResponse"
                 },
                 "refresh_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6..."
                 }
             }
         },
@@ -1843,13 +1872,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "minute": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 45
                 },
                 "player_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Marko Simic"
                 },
                 "team_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Persija Jakarta"
                 }
             }
         },
@@ -1857,28 +1889,34 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "away_score": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "away_team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "home_score": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 2
                 },
                 "home_team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "match_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-06-15"
                 },
                 "match_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000001000"
                 },
                 "match_result": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Home Win"
                 },
                 "match_time": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "19:30"
                 }
             }
         },
@@ -1886,13 +1924,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "away_score": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "away_team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "away_team_total_wins": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 3
                 },
                 "goals": {
                     "type": "array",
@@ -1901,26 +1941,32 @@ const docTemplate = `{
                     }
                 },
                 "home_score": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 2
                 },
                 "home_team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "home_team_total_wins": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 5
                 },
                 "match_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-06-15"
                 },
                 "match_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000001000"
                 },
                 "match_result": {
                     "description": "\"Home Win\", \"Away Win\", \"Draw\"",
-                    "type": "string"
+                    "type": "string",
+                    "example": "Home Win"
                 },
                 "match_time": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "19:30"
                 },
                 "top_scorer": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TopScorerResponse"
@@ -1931,16 +1977,19 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "away_score": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "away_team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "away_team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000020"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-01-15T10:30:00Z"
                 },
                 "goals": {
                     "type": "array",
@@ -1949,28 +1998,35 @@ const docTemplate = `{
                     }
                 },
                 "home_score": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 2
                 },
                 "home_team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "home_team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000010"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000001000"
                 },
                 "match_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-06-15"
                 },
                 "match_time": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "19:30"
                 },
                 "status": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "completed"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-01-15T10:30:00Z"
                 }
             }
         },
@@ -1992,34 +2048,43 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-01-15T10:30:00Z"
                 },
                 "height": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 185
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000100"
                 },
                 "jersey_number": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 9
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Marko Simic"
                 },
                 "position": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "penyerang"
                 },
                 "team": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse"
                 },
                 "team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000010"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-01-15T10:30:00Z"
                 },
                 "weight": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 80
                 }
             }
         },
@@ -2030,7 +2095,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "refresh_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6..."
                 }
             }
         },
@@ -2038,10 +2104,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "access_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6..."
                 },
                 "refresh_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6..."
                 }
             }
         },
@@ -2049,28 +2117,36 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jakarta International Stadium"
                 },
                 "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jakarta"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-01-15T10:30:00Z"
                 },
                 "founded_year": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1928
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000010"
                 },
                 "logo_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://example.com/persija-logo.png"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Persija Jakarta"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-01-15T10:30:00Z"
                 }
             }
         },
@@ -2078,13 +2154,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "goals_in_match": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 2
                 },
                 "player_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Marko Simic"
                 },
                 "team_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Persija Jakarta"
                 }
             }
         },
@@ -2098,16 +2177,20 @@ const docTemplate = `{
             ],
             "properties": {
                 "away_team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000020"
                 },
                 "home_team_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "019292f0-6b00-7a50-8d00-000000000010"
                 },
                 "match_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-06-15"
                 },
                 "match_time": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "19:30"
                 }
             }
         },
@@ -2122,13 +2205,16 @@ const docTemplate = `{
             ],
             "properties": {
                 "height": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 185
                 },
                 "jersey_number": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 9
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Marko Simic"
                 },
                 "position": {
                     "type": "string",
@@ -2137,10 +2223,12 @@ const docTemplate = `{
                         "gelandang",
                         "bertahan",
                         "penjaga_gawang"
-                    ]
+                    ],
+                    "example": "penyerang"
                 },
                 "weight": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 80
                 }
             }
         },
@@ -2151,21 +2239,26 @@ const docTemplate = `{
             ],
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jakarta International Stadium"
                 },
                 "city": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jakarta"
                 },
                 "founded_year": {
                     "type": "integer",
                     "maximum": 2100,
-                    "minimum": 1800
+                    "minimum": 1800,
+                    "example": 1928
                 },
                 "logo_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://example.com/persija-logo.png"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Persija Jakarta"
                 }
             }
         },
@@ -2191,13 +2284,15 @@ const docTemplate = `{
                     }
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Operation successful"
                 },
                 "meta": {
                     "$ref": "#/definitions/github_com_mhakimsaputra17_xyz-football-api_pkg_response.PaginationMeta"
                 },
                 "status": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "success"
                 }
             }
         },
@@ -2205,16 +2300,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "per_page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 10
                 },
                 "total": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 50
                 },
                 "total_pages": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 5
                 }
             }
         }

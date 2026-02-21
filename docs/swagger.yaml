@@ -3,21 +3,27 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.AdminResponse:
     properties:
       id:
+        example: 019292f0-6b00-7a50-8d00-000000000001
         type: string
       username:
+        example: admin
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.CreateMatchRequest:
     properties:
       away_team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000020
         type: string
       home_team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000010
         type: string
       match_date:
         description: YYYY-MM-DD
+        example: "2025-06-15"
         type: string
       match_time:
         description: HH:MM
+        example: "19:30"
         type: string
     required:
     - away_team_id
@@ -28,10 +34,13 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.CreatePlayerRequest:
     properties:
       height:
+        example: 185
         type: integer
       jersey_number:
+        example: 9
         type: integer
       name:
+        example: Marko Simic
         type: string
       position:
         enum:
@@ -39,8 +48,10 @@ definitions:
         - gelandang
         - bertahan
         - penjaga_gawang
+        example: penyerang
         type: string
       weight:
+        example: 80
         type: integer
     required:
     - height
@@ -52,16 +63,21 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.CreateTeamRequest:
     properties:
       address:
+        example: Jakarta International Stadium
         type: string
       city:
+        example: Jakarta
         type: string
       founded_year:
+        example: 1928
         maximum: 2100
         minimum: 1800
         type: integer
       logo_url:
+        example: https://example.com/persija-logo.png
         type: string
       name:
+        example: Persija Jakarta
         type: string
     required:
     - name
@@ -69,11 +85,14 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.GoalInput:
     properties:
       minute:
+        example: 45
         minimum: 1
         type: integer
       player_id:
+        example: 019292f0-6b00-7a50-8d00-000000000100
         type: string
       team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000010
         type: string
     required:
     - minute
@@ -83,27 +102,35 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.GoalResponse:
     properties:
       created_at:
+        example: "2025-01-15T10:30:00Z"
         type: string
       id:
+        example: 019292f0-6b00-7a50-8d00-000000010000
         type: string
       match_id:
+        example: 019292f0-6b00-7a50-8d00-000000001000
         type: string
       minute:
+        example: 45
         type: integer
       player:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.PlayerResponse'
       player_id:
+        example: 019292f0-6b00-7a50-8d00-000000000100
         type: string
       team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000010
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.LoginRequest:
     properties:
       password:
+        example: password123
         type: string
       username:
+        example: admin
         type: string
     required:
     - password
@@ -112,66 +139,85 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.LoginResponse:
     properties:
       access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6...
         type: string
       admin:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.AdminResponse'
       refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6...
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.MatchReportGoal:
     properties:
       minute:
+        example: 45
         type: integer
       player_name:
+        example: Marko Simic
         type: string
       team_name:
+        example: Persija Jakarta
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.MatchReportListItem:
     properties:
       away_score:
+        example: 1
         type: integer
       away_team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       home_score:
+        example: 2
         type: integer
       home_team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       match_date:
+        example: "2025-06-15"
         type: string
       match_id:
+        example: 019292f0-6b00-7a50-8d00-000000001000
         type: string
       match_result:
+        example: Home Win
         type: string
       match_time:
+        example: "19:30"
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.MatchReportResponse:
     properties:
       away_score:
+        example: 1
         type: integer
       away_team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       away_team_total_wins:
+        example: 3
         type: integer
       goals:
         items:
           $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.MatchReportGoal'
         type: array
       home_score:
+        example: 2
         type: integer
       home_team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       home_team_total_wins:
+        example: 5
         type: integer
       match_date:
+        example: "2025-06-15"
         type: string
       match_id:
+        example: 019292f0-6b00-7a50-8d00-000000001000
         type: string
       match_result:
         description: '"Home Win", "Away Win", "Draw"'
+        example: Home Win
         type: string
       match_time:
+        example: "19:30"
         type: string
       top_scorer:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TopScorerResponse'
@@ -179,32 +225,42 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.MatchResponse:
     properties:
       away_score:
+        example: 1
         type: integer
       away_team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       away_team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000020
         type: string
       created_at:
+        example: "2025-01-15T10:30:00Z"
         type: string
       goals:
         items:
           $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.GoalResponse'
         type: array
       home_score:
+        example: 2
         type: integer
       home_team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       home_team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000010
         type: string
       id:
+        example: 019292f0-6b00-7a50-8d00-000000001000
         type: string
       match_date:
+        example: "2025-06-15"
         type: string
       match_time:
+        example: "19:30"
         type: string
       status:
+        example: completed
         type: string
       updated_at:
+        example: "2025-01-15T10:30:00Z"
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.MatchResultRequest:
@@ -219,29 +275,39 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.PlayerResponse:
     properties:
       created_at:
+        example: "2025-01-15T10:30:00Z"
         type: string
       height:
+        example: 185
         type: integer
       id:
+        example: 019292f0-6b00-7a50-8d00-000000000100
         type: string
       jersey_number:
+        example: 9
         type: integer
       name:
+        example: Marko Simic
         type: string
       position:
+        example: penyerang
         type: string
       team:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse'
       team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000010
         type: string
       updated_at:
+        example: "2025-01-15T10:30:00Z"
         type: string
       weight:
+        example: 80
         type: integer
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.RefreshRequest:
     properties:
       refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6...
         type: string
     required:
     - refresh_token
@@ -249,47 +315,64 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.RefreshResponse:
     properties:
       access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6...
         type: string
       refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6...
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.TeamResponse:
     properties:
       address:
+        example: Jakarta International Stadium
         type: string
       city:
+        example: Jakarta
         type: string
       created_at:
+        example: "2025-01-15T10:30:00Z"
         type: string
       founded_year:
+        example: 1928
         type: integer
       id:
+        example: 019292f0-6b00-7a50-8d00-000000000010
         type: string
       logo_url:
+        example: https://example.com/persija-logo.png
         type: string
       name:
+        example: Persija Jakarta
         type: string
       updated_at:
+        example: "2025-01-15T10:30:00Z"
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.TopScorerResponse:
     properties:
       goals_in_match:
+        example: 2
         type: integer
       player_name:
+        example: Marko Simic
         type: string
       team_name:
+        example: Persija Jakarta
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.UpdateMatchRequest:
     properties:
       away_team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000020
         type: string
       home_team_id:
+        example: 019292f0-6b00-7a50-8d00-000000000010
         type: string
       match_date:
+        example: "2025-06-15"
         type: string
       match_time:
+        example: "19:30"
         type: string
     required:
     - away_team_id
@@ -300,10 +383,13 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.UpdatePlayerRequest:
     properties:
       height:
+        example: 185
         type: integer
       jersey_number:
+        example: 9
         type: integer
       name:
+        example: Marko Simic
         type: string
       position:
         enum:
@@ -311,8 +397,10 @@ definitions:
         - gelandang
         - bertahan
         - penjaga_gawang
+        example: penyerang
         type: string
       weight:
+        example: 80
         type: integer
     required:
     - height
@@ -324,16 +412,21 @@ definitions:
   github_com_mhakimsaputra17_xyz-football-api_internal_dto.UpdateTeamRequest:
     properties:
       address:
+        example: Jakarta International Stadium
         type: string
       city:
+        example: Jakarta
         type: string
       founded_year:
+        example: 1928
         maximum: 2100
         minimum: 1800
         type: integer
       logo_url:
+        example: https://example.com/persija-logo.png
         type: string
       name:
+        example: Persija Jakarta
         type: string
     required:
     - name
@@ -353,21 +446,27 @@ definitions:
           $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_pkg_errs.FieldError'
         type: array
       message:
+        example: Operation successful
         type: string
       meta:
         $ref: '#/definitions/github_com_mhakimsaputra17_xyz-football-api_pkg_response.PaginationMeta'
       status:
+        example: success
         type: string
     type: object
   github_com_mhakimsaputra17_xyz-football-api_pkg_response.PaginationMeta:
     properties:
       page:
+        example: 1
         type: integer
       per_page:
+        example: 10
         type: integer
       total:
+        example: 50
         type: integer
       total_pages:
+        example: 5
         type: integer
     type: object
 host: localhost:8080

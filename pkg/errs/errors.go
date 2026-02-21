@@ -3,8 +3,7 @@ package errs
 import "net/http"
 
 // AppError represents an application-level error with an HTTP status code.
-// This follows the error-handling-patterns skill: errors carry context about
-// how they should be presented to the client.
+// Errors carry context about how they should be presented to the client.
 type AppError struct {
 	Code    int          `json:"-"`
 	Message string       `json:"message"`

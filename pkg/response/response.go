@@ -7,8 +7,8 @@ import (
 
 // Envelope is the standard API response format: { status, message, data, meta?, errors? }
 type Envelope struct {
-	Status  string            `json:"status"`
-	Message string            `json:"message"`
+	Status  string            `json:"status" example:"success"`
+	Message string            `json:"message" example:"Operation successful"`
 	Data    any               `json:"data,omitempty"`
 	Meta    *PaginationMeta   `json:"meta,omitempty"`
 	Errors  []errs.FieldError `json:"errors,omitempty"`
@@ -16,10 +16,10 @@ type Envelope struct {
 
 // PaginationMeta holds pagination metadata for list responses.
 type PaginationMeta struct {
-	Page       int   `json:"page"`
-	PerPage    int   `json:"per_page"`
-	Total      int64 `json:"total"`
-	TotalPages int   `json:"total_pages"`
+	Page       int   `json:"page" example:"1"`
+	PerPage    int   `json:"per_page" example:"10"`
+	Total      int64 `json:"total" example:"50"`
+	TotalPages int   `json:"total_pages" example:"5"`
 }
 
 // Success sends a success response with optional data.
