@@ -24,6 +24,7 @@ REST API for managing football teams, players, match schedules, results, and rep
   - [Reports](#reports)
   - [Response Format](#response-format)
 - [Swagger Documentation](#swagger-documentation)
+- [Postman Collection](#postman-collection)
 - [Testing](#testing)
 - [Deployment](#deployment)
 - [Troubleshooting](#troubleshooting)
@@ -515,6 +516,38 @@ swag init -g cmd/api/main.go --parseDependency --parseInternal
 ```
 
 This regenerates the `docs/` directory (`docs.go`, `swagger.json`, `swagger.yaml`).
+
+---
+
+## Postman Collection
+
+A ready-to-use Postman collection is available in the `docs/` folder:
+
+```
+docs/XYZ_Football_API.postman_collection.json
+```
+
+### How to Import
+
+1. Open Postman
+2. Click **Import** (top-left)
+3. Drag and drop the file or browse to `docs/XYZ_Football_API.postman_collection.json`
+4. The collection will appear in your sidebar
+
+### Collection Features
+
+- **All 22 API endpoints** organized by category (Auth, Teams, Players, Matches, Reports)
+- **Collection-level Bearer auth** -- set the token once, all protected endpoints inherit it automatically
+- **Public endpoints** (login, refresh) override with `noauth` so they work without a token
+- **Cleanup folder** at the end for sequential Collection Runner compatibility (delete test data in order)
+- Pre-configured request bodies with example data for every POST/PUT endpoint
+
+### Quick Start with Postman
+
+1. Import the collection
+2. Send the **Login** request (`POST /api/v1/auth/login`) -- copy the `access_token` from the response
+3. Go to the collection's **Authorization** tab → set the token value
+4. All other requests will work automatically with the inherited token
 
 ---
 
